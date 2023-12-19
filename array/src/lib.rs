@@ -6,7 +6,7 @@ pub mod array_operation;
 
 pub mod zip;
 pub mod mix;
-pub mod fold;
+pub mod fold_nonempty;
 
 #[macro_use]
 pub mod samples;
