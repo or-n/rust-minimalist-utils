@@ -1,11 +1,11 @@
 use crate::{
-    constant::{zero::*, one::*, min_value::*, max_value::*},
-    scale::*,
+    constant::{max_value::*, min_value::*, one::*, zero::*},
     point::bounds::*,
+    scale::*,
 };
-use array::fold::*;
-use std::ops::{Neg, Add, Sub, Mul, Div};
-use std::ops::{AddAssign, SubAssign, MulAssign, DivAssign};
+use array::fold_nonempty::*;
+use std::ops::{Add, Div, Mul, Neg, Sub};
+use std::ops::{AddAssign, DivAssign, MulAssign, SubAssign};
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct _4<T>(pub [T; 4]);
@@ -32,10 +32,11 @@ impl<T: Copy> _4<T> {
     }
 
     pub fn all_axis(bounds: Bounds<T>) -> [Self; 4] {
-        [ Self::axis0(bounds)
-        , Self::axis1(bounds)
-        , Self::axis2(bounds)
-        , Self::axis3(bounds)
+        [
+            Self::axis0(bounds),
+            Self::axis1(bounds),
+            Self::axis2(bounds),
+            Self::axis3(bounds),
         ]
     }
 }
@@ -50,7 +51,10 @@ impl<A> _4<A> {
     pub fn zip_mut<B>(&mut self, other: _4<B>, f: impl Fn(&mut A, B)) {
         let [a0, a1, a2, a3] = &mut self.0;
         let [b0, b1, b2, b3] = other.0;
-        f(a0, b0); f(a1, b1); f(a2, b2); f(a3, b3);
+        f(a0, b0);
+        f(a1, b1);
+        f(a2, b2);
+        f(a3, b3);
     }
 }
 

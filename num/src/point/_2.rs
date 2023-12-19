@@ -3,7 +3,7 @@ use crate::{
     point::{bounds::*, _3::*},
     scale::*,
 };
-use array::fold::*;
+use array::fold_nonempty::*;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 use std::ops::{AddAssign, DivAssign, MulAssign, SubAssign};
 
