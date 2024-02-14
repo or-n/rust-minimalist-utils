@@ -10,6 +10,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "cluster"
+version = "0.1.0"
+dependencies = [
+ "array",
+]
+
+[[package]]
 name = "color"
 version = "0.1.0"
 dependencies = [
