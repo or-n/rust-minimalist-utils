@@ -8,4 +8,5 @@ members = [
     "tree",
     "cluster",
     "gen",
+    "ecs",
 ]
