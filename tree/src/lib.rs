@@ -4,6 +4,7 @@ pub mod fold;
 pub mod kids;
 pub mod list;
 pub mod result;
+pub mod trie;
 pub mod update;
 
 #[cfg(test)]
