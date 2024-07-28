@@ -6,6 +6,7 @@ use crate::{
 use array::fold_nonempty::*;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 use std::ops::{AddAssign, DivAssign, MulAssign, SubAssign};
+use std::ops::{Deref, DerefMut};
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct _4<T>(pub [T; 4]);
@@ -60,3 +61,4 @@ impl<A> _4<A> {
 
 zero_one_minvalue_maxvalue!(_4, 4);
 add_sub_mul_div_neg_scale_foldnonempty!(_4);
+deref!(_4, 4);

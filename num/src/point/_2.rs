@@ -6,6 +6,7 @@ use crate::{
 use array::fold_nonempty::*;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 use std::ops::{AddAssign, DivAssign, MulAssign, SubAssign};
+use std::ops::{Deref, DerefMut};
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct _2<T>(pub [T; 2]);
@@ -41,6 +42,7 @@ impl<A> _2<A> {
 
 zero_one_minvalue_maxvalue!(_2, 2);
 add_sub_mul_div_neg_scale_foldnonempty!(_2);
+deref!(_2, 2);
 
 impl From<_2<u32>> for _2<i32> {
     fn from(item: _2<u32>) -> _2<i32> {

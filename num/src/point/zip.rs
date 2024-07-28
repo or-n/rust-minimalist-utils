@@ -94,3 +94,22 @@ macro_rules! zero_one_minvalue_maxvalue {
         constant!($d, $n, MaxValue, max_value);
     };
 }
+
+#[macro_export]
+macro_rules! deref {
+    ($d: ident, $n: expr) => {
+        impl<T> Deref for $d<T> {
+            type Target = [T; $n];
+
+            fn deref(&self) -> &Self::Target {
+                &self.0
+            }
+        }
+
+        impl<T> DerefMut for $d<T> {
+            fn deref_mut(&mut self) -> &mut Self::Target {
+                &mut self.0
+            }
+        }
+    };
+}
