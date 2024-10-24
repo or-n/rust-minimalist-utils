@@ -9,4 +9,5 @@ members = [
     "cluster",
     "gen",
     "ecs",
+    "range",
 ]
