@@ -2,14 +2,14 @@ use std::ops::{Add, Sub};
 
 #[derive(Debug, Clone, Copy)]
 pub struct MinSize<T> {
-    min: T,
-    size: T,
+    pub min: T,
+    pub size: T,
 }
 
 #[derive(Debug, Clone, Copy)]
 pub struct MinMax<T> {
-    min: T,
-    max: T,
+    pub min: T,
+    pub max: T,
 }
 
 impl<T> From<MinMax<T>> for MinSize<T>
