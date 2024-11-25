@@ -1,4 +1,4 @@
-use super::eat::*;
+use super::{Eat, EatMany};
 
 pub struct Digit(u32);
 

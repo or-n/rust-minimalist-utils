@@ -1,4 +1,4 @@
-use super::eat::*;
+use super::{Drop, Eat};
 
 #[derive(Debug)]
 pub enum CharError {

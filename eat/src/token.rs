@@ -1,4 +1,4 @@
-use super::eat::*;
+use super::{Drop, Eat};
 
 impl<Token: Clone> Eat<&[Token], (), ()> for Token {
     fn eat(i: &[Token], _data: ()) -> Result<(&[Token], Token), ()> {
