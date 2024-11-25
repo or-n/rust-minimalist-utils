@@ -1,8 +1,8 @@
-use super::text::*;
+use super::eat::*;
 
 pub struct Digit(u32);
 
-impl Eat<(), ()> for Digit {
+impl Eat<&str, (), ()> for Digit {
     fn eat(i: &str, _data: ()) -> Result<(&str, Self), ()> {
         let (i, c) = char::eat(i, ())?;
         let digit = c.to_digit(10).ok_or(())?;
@@ -10,7 +10,7 @@ impl Eat<(), ()> for Digit {
     }
 }
 
-impl Eat<(), ()> for u32 {
+impl Eat<&str, (), ()> for u32 {
     fn eat(i: &str, _data: ()) -> Result<(&str, Self), ()> {
         let (i, digits) = Digit::eat_many(i, ());
         if digits.is_empty() {
