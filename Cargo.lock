@@ -25,6 +25,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "dependency_db"
+version = "0.1.0"
+
+[[package]]
 name = "derived-deref"
 version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -34,6 +38,10 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "eat"
+version = "0.1.0"
 
 [[package]]
 name = "ecs"
