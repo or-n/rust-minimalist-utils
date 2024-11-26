@@ -1,5 +1,4 @@
 pub mod read;
-pub mod util;
 pub mod write;
 
 use std::collections::HashMap;
