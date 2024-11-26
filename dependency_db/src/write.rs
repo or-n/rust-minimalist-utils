@@ -1,5 +1,5 @@
 use super::Deps;
-use crate::util::ToSeq;
+use to_seq::*;
 
 impl ToSeq<&mut Vec<u8>, (), ()> for Deps<u32> {
     fn to_seq(self, o: &mut Vec<u8>, _data: ()) -> Result<(), ()> {

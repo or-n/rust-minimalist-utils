@@ -10,5 +10,5 @@ members = [
     "gen",
     "ecs",
     "range",
-    "dependency_db", "eat",
+    "dependency_db", "eat", "to_seq",
 ]
