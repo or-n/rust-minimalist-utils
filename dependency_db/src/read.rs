@@ -7,8 +7,7 @@ impl Eat<&[u8], (), ()> for KeyValue<u32> {
         let (i, key) = u32::eat(i, ())?;
         let (i, file) = SeqN::<u8>::eat(i, ())?;
         let (i, deps) = SeqN::<u32>::eat(i, ())?;
-        let deps = deps.0.into_iter().map(|x| x.0).collect();
-        let value = (file.0, deps);
+        let value = (file.0, deps.0);
         Ok((i, KeyValue((key, value))))
     }
 }
