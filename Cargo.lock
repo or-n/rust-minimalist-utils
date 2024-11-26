@@ -27,6 +27,9 @@ dependencies = [
 [[package]]
 name = "dependency_db"
 version = "0.1.0"
+dependencies = [
+ "eat 0.1.0 (git+https://github.com/or-n/rust-minimalist-utils.git)",
+]
 
 [[package]]
 name = "derived-deref"
@@ -42,6 +45,11 @@ dependencies = [
 [[package]]
 name = "eat"
 version = "0.1.0"
+
+[[package]]
+name = "eat"
+version = "0.1.0"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#f10d78131c55488022d62ad8588aae6657be568c"
 
 [[package]]
 name = "ecs"
