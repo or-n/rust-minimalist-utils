@@ -24,11 +24,11 @@ where
     }
 }
 
-impl<'a, Id> ToSeq<&'a mut Vec<u8>, ()> for DepValue<Id>
+impl<Id> ToSeq<Vec<u8>, ()> for DepValue<Id>
 where
-    Id: ToSeq<&'a mut Vec<u8>, ()>,
+    Id: ToSeq<Vec<u8>, ()>,
 {
-    fn to_seq(self, mut o: &'a mut Vec<u8>) -> Result<&'a mut Vec<u8>, ()> {
+    fn to_seq(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
         o = (self.bytes.len() as u32).to_seq(o)?;
         o = self.bytes.to_seq(o)?;
         o = (self.deps.len() as u32).to_seq(o)?;

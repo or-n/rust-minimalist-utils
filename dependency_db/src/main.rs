@@ -12,7 +12,7 @@ fn main() {
     };
     table.insert(2137, value);
     let mut bytes = Vec::new();
-    Table { table }.to_seq(&mut bytes).unwrap();
+    bytes = Table { table }.to_seq(bytes).unwrap();
     let hex: String = bytes.iter().map(|byte| format!("{:02X} ", byte)).collect();
     println!("{}", hex);
     fs::write(DEPENDENCIES, bytes).unwrap();
