@@ -1,5 +1,5 @@
 use eat::*;
-use to_seq::*;
+use spit::*;
 
 pub const DEPENDENCIES: &str = "dependencies";
 
@@ -24,16 +24,16 @@ where
     }
 }
 
-impl<Id> ToSeq<Vec<u8>, ()> for DepValue<Id>
+impl<Id> Spit<Vec<u8>, ()> for DepValue<Id>
 where
-    Id: ToSeq<Vec<u8>, ()>,
+    Id: Spit<Vec<u8>, ()>,
 {
-    fn to_seq(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
-        o = (self.bytes.len() as u32).to_seq(o)?;
-        o = self.bytes.to_seq(o)?;
-        o = (self.deps.len() as u32).to_seq(o)?;
+    fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
+        o = (self.bytes.len() as u32).spit(o)?;
+        o = self.bytes.spit(o)?;
+        o = (self.deps.len() as u32).spit(o)?;
         for dep in self.deps {
-            o = dep.to_seq(o)?;
+            o = dep.spit(o)?;
         }
         Ok(o)
     }

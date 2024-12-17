@@ -29,7 +29,7 @@ name = "dependency_db"
 version = "0.1.0"
 dependencies = [
  "eat 0.1.0 (git+https://github.com/or-n/rust-minimalist-utils.git)",
- "to_seq",
+ "spit 0.1.0 (git+https://github.com/or-n/rust-minimalist-utils.git)",
 ]
 
 [[package]]
@@ -50,7 +50,7 @@ version = "0.1.0"
 [[package]]
 name = "eat"
 version = "0.1.0"
-source = "git+https://github.com/or-n/rust-minimalist-utils.git#47c00b9af6bf0f92817d1c43b7eceb1299a83cfd"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#20f4187fca7caea3d3887e70d8cdd112c2564184"
 
 [[package]]
 name = "ecs"
@@ -122,6 +122,11 @@ name = "spit"
 version = "0.1.0"
 
 [[package]]
+name = "spit"
+version = "0.1.0"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#20f4187fca7caea3d3887e70d8cdd112c2564184"
+
+[[package]]
 name = "syn"
 version = "2.0.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -131,11 +136,6 @@ dependencies = [
  "quote",
  "unicode-ident",
 ]
-
-[[package]]
-name = "to_seq"
-version = "0.1.0"
-source = "git+https://github.com/or-n/rust-minimalist-utils.git#47c00b9af6bf0f92817d1c43b7eceb1299a83cfd"
 
 [[package]]
 name = "tree"
