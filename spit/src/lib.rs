@@ -61,3 +61,15 @@ where
         Ok(o)
     }
 }
+
+impl<A, B> Spit<Vec<u8>, ()> for (A, B)
+where
+    A: Spit<Vec<u8>, ()>,
+    B: Spit<Vec<u8>, ()>,
+{
+    fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
+        o = self.0.spit(o)?;
+        o = self.1.spit(o)?;
+        Ok(o)
+    }
+}

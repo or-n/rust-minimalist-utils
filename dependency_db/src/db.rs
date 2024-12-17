@@ -61,7 +61,7 @@ where
         let top_deps = value.deps.iter().filter(|dep| self.top.contains(dep));
         let top_deps: Vec<_> = top_deps.map(|x| *x).collect();
         {
-            let commands = top_deps.iter().map(|x| *x).map(TopCommand::Remove);
+            let commands = top_deps.iter().map(|x| ('-' as u8, *x));
             let bytes = TopCommand::spit_many(commands, Vec::new()).map_err(Push::SpitCommand)?;
             let mut file = OpenOptions::new()
                 .create(true)
@@ -69,6 +69,9 @@ where
                 .open(&self.top_path)
                 .map_err(Push::IO)?;
             file.write_all(&bytes).map_err(Push::IO)?;
+        }
+        for dep in top_deps.iter() {
+            self.top.remove(dep);
         }
         {
             let bytes = value.clone().spit(Vec::new()).map_err(|_| Push::Spit(id))?;
@@ -79,6 +82,7 @@ where
                 .map_err(Push::IO)?;
             file.write_all(&bytes).map_err(Push::IO)?;
         }
+        self.db.insert(id, value);
         {
             let bytes = TopCommand::Insert(id)
                 .spit(Vec::new())
@@ -90,10 +94,6 @@ where
                 .map_err(Push::IO)?;
             file.write_all(&bytes).map_err(Push::IO)?;
         }
-        for dep in top_deps.iter() {
-            self.top.remove(dep);
-        }
-        self.db.insert(id, value);
         self.top.insert(id);
         Ok(())
     }
