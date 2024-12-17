@@ -28,6 +28,13 @@ where
     }
 }
 
+impl Spit<Vec<u8>, ()> for u8 {
+    fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
+        o.push(self);
+        Ok(o)
+    }
+}
+
 impl Spit<Vec<u8>, ()> for &[u8] {
     fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
         o.extend_from_slice(self);

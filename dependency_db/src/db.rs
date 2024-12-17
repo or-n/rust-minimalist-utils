@@ -62,7 +62,7 @@ where
         let top_deps: Vec<_> = top_deps.map(|x| *x).collect();
         {
             let commands = top_deps.iter().map(|x| ('-' as u8, *x));
-            let bytes = TopCommand::spit_many(commands, Vec::new()).map_err(Push::SpitCommand)?;
+            let bytes = <(u8, Id)>::spit_many(commands, Vec::new()).map_err(|_| Push::Spit(id))?;
             let mut file = OpenOptions::new()
                 .create(true)
                 .append(true)
