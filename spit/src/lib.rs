@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 pub trait Spit<Output, Error> {
     fn spit(self, o: Output) -> Result<Output, Error>;
 }
@@ -18,6 +20,20 @@ impl Spit<Vec<u8>, ()> for u32 {
 impl Spit<Vec<u8>, ()> for &Vec<u8> {
     fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
         o.extend(self);
+        Ok(o)
+    }
+}
+
+impl<Id, Value> Spit<Vec<u8>, ()> for HashMap<Id, Value>
+where
+    Id: Spit<Vec<u8>, ()>,
+    Value: Spit<Vec<u8>, ()>,
+{
+    fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
+        for (id, value) in self {
+            o = id.spit(o)?;
+            o = value.spit(o)?;
+        }
         Ok(o)
     }
 }
