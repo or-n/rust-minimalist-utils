@@ -1,16 +1,10 @@
 pub mod dep;
 pub mod read;
-pub mod write;
-
-use std::collections::HashMap;
-
-pub struct Table<Id, Value> {
-    pub table: HashMap<Id, Value>,
-}
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::dep::{DepValue, DEPENDENCIES};
+    use super::read::Table;
     use eat::*;
     use std::fs;
 
@@ -24,6 +18,6 @@ mod tests {
             bytes: vec![],
             deps: vec![],
         };
-        assert_eq!(deps.table.get_key_value(&0), Some((&0, &value)));
+        assert_eq!(deps.table.get_key_value(&2137), Some((&2137, &value)));
     }
 }
