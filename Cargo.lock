@@ -50,7 +50,7 @@ version = "0.1.0"
 [[package]]
 name = "eat"
 version = "0.1.0"
-source = "git+https://github.com/or-n/rust-minimalist-utils.git#5fe1e68408353312e894c482dc54142732c4a762"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#138b2036653ac554a2eb40dc4bbc5269f6f50b8e"
 
 [[package]]
 name = "ecs"
@@ -135,7 +135,7 @@ version = "0.1.0"
 [[package]]
 name = "to_seq"
 version = "0.1.0"
-source = "git+https://github.com/or-n/rust-minimalist-utils.git#5fe1e68408353312e894c482dc54142732c4a762"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#138b2036653ac554a2eb40dc4bbc5269f6f50b8e"
 
 [[package]]
 name = "tree"
