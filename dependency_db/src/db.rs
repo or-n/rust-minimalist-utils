@@ -18,6 +18,7 @@ pub enum Push<Id> {
     Found,
     DepNotFound(Id),
     Spit(Id),
+    SpitCommand(TopCommand<Id>),
     IO(std::io::Error),
 }
 
@@ -31,8 +32,17 @@ impl<Id> Spit<Vec<u8>, ()> for TopCommand<Id>
 where
     Id: Spit<Vec<u8>, ()>,
 {
-    fn spit(self, o: Vec<u8>) -> Result<Vec<u8>, ()> {
-        Ok(o)
+    fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
+        match self {
+            TopCommand::Insert(id) => {
+                o = ['+' as u8].spit(o)?;
+                id.spit(o)
+            }
+            TopCommand::Remove(id) => {
+                o = ['-' as u8].spit(o)?;
+                id.spit(o)
+            }
+        }
     }
 }
 
@@ -49,16 +59,10 @@ where
             return Err(Push::DepNotFound(*dep));
         }
         let top_deps = value.deps.iter().filter(|dep| self.top.contains(dep));
-        let top_deps: Vec<Id> = top_deps.map(|x| *x).collect();
+        let top_deps: Vec<_> = top_deps.map(|x| *x).collect();
         {
-            // let mut bytes = Vec::new();
-            // for &dep in top_deps.iter() {
-            //     bytes = TopCommand::Remove(*dep)
-            //         .spit(bytes)
-            //         .map_err(|_| Push::Spit(*dep))?;
-            // }
             let commands = top_deps.iter().map(|x| *x).map(TopCommand::Remove);
-            let bytes = TopCommand::spit_many(commands, Vec::new()).map_err(|_| Push::Spit(id))?;
+            let bytes = TopCommand::spit_many(commands, Vec::new()).map_err(Push::SpitCommand)?;
             let mut file = OpenOptions::new()
                 .create(true)
                 .append(true)
