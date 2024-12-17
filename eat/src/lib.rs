@@ -32,6 +32,28 @@ where
     }
 }
 
+pub trait EatLen<Input, Error, Data>
+where
+    Self: Sized,
+{
+    fn eat_len(i: Input, data: Data, len: usize) -> Result<(Input, Vec<Self>), Error>;
+}
+
+impl<'a, T> EatLen<&'a [u8], (), ()> for T
+where
+    T: Eat<&'a [u8], (), ()>,
+{
+    fn eat_len(mut i: &'a [u8], _data: (), len: usize) -> Result<(&'a [u8], Vec<T>), ()> {
+        let mut r = Vec::new();
+        for _ in 0..len {
+            let (new_i, x) = T::eat(i, ())?;
+            i = new_i;
+            r.push(x);
+        }
+        Ok((i, r))
+    }
+}
+
 pub trait Drop<Input, Error>
 where
     Self: Sized,
@@ -61,6 +83,25 @@ where
     }
 }
 
+pub trait DropLen<Input, Error>
+where
+    Self: Sized,
+{
+    fn drop_len(self, i: Input, len: usize) -> Result<Input, Error>;
+}
+
+impl<'a, T> DropLen<&'a [u8], ()> for &'a T
+where
+    &'a T: Drop<&'a [u8], ()>,
+{
+    fn drop_len(self, mut i: &'a [u8], len: usize) -> Result<&'a [u8], ()> {
+        for _ in 0..len {
+            i = self.drop(i)?;
+        }
+        Ok(i)
+    }
+}
+
 impl Eat<&[u8], (), ()> for u32 {
     fn eat(i: &[u8], _data: ()) -> Result<(&[u8], Self), ()> {
         let (i, b0) = u8::eat(i, ())?;
@@ -81,23 +122,5 @@ where
         let (i, a) = A::eat(i, ())?;
         let (i, b) = B::eat(i, ())?;
         Ok((i, (a, b)))
-    }
-}
-
-pub struct SeqN<T>(pub Vec<T>);
-
-impl<'a, T> Eat<&'a [u8], (), ()> for SeqN<T>
-where
-    T: Eat<&'a [u8], (), ()>,
-{
-    fn eat(i: &'a [u8], _data: ()) -> Result<(&'a [u8], Self), ()> {
-        let (mut i, n) = u32::eat(i, ())?;
-        let mut r = Vec::new();
-        for _ in 0..n {
-            let (new_i, x) = T::eat(i, ())?;
-            i = new_i;
-            r.push(x);
-        }
-        Ok((i, SeqN(r)))
     }
 }
