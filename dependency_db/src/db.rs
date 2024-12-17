@@ -18,32 +18,7 @@ pub enum Push<Id> {
     Found,
     DepNotFound(Id),
     Spit(Id),
-    SpitCommand(TopCommand<Id>),
     IO(std::io::Error),
-}
-
-#[derive(Clone)]
-pub enum TopCommand<Id> {
-    Insert(Id),
-    Remove(Id),
-}
-
-impl<Id> Spit<Vec<u8>, ()> for TopCommand<Id>
-where
-    Id: Spit<Vec<u8>, ()>,
-{
-    fn spit(self, mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
-        match self {
-            TopCommand::Insert(id) => {
-                o = ['+' as u8].spit(o)?;
-                id.spit(o)
-            }
-            TopCommand::Remove(id) => {
-                o = ['-' as u8].spit(o)?;
-                id.spit(o)
-            }
-        }
-    }
 }
 
 impl<Id> DB<Id>
@@ -62,7 +37,8 @@ where
         let top_deps: Vec<_> = top_deps.map(|x| *x).collect();
         {
             let commands = top_deps.iter().map(|x| ('-' as u8, *x));
-            let bytes = <(u8, Id)>::spit_many(commands, Vec::new()).map_err(|_| Push::Spit(id))?;
+            let bytes =
+                <(u8, Id)>::spit_many(commands, Vec::new()).map_err(|pair| Push::Spit(pair.1))?;
             let mut file = OpenOptions::new()
                 .create(true)
                 .append(true)
@@ -84,9 +60,8 @@ where
         }
         self.db.insert(id, value);
         {
-            let bytes = TopCommand::Insert(id)
-                .spit(Vec::new())
-                .map_err(|_| Push::Spit(id))?;
+            let bytes = vec!['+' as u8];
+            let bytes = id.spit(bytes).map_err(|_| Push::Spit(id))?;
             let mut file = OpenOptions::new()
                 .create(true)
                 .append(true)
