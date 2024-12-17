@@ -8,16 +8,21 @@ pub trait SpitMany<Output, Error>
 where
     Self: Sized,
 {
-    fn spit_many(x: &[Self], o: Output) -> Result<Output, Error>;
+    fn spit_many<I>(x: I, o: Output) -> Result<Output, Error>
+    where
+        I: IntoIterator<Item = Self>;
 }
 
-impl<T> SpitMany<Vec<u8>, ()> for T
+impl<T> SpitMany<Vec<u8>, T> for T
 where
     T: Clone + Spit<Vec<u8>, ()>,
 {
-    fn spit_many(x: &[Self], mut o: Vec<u8>) -> Result<Vec<u8>, ()> {
-        for item in x.iter() {
-            o = item.clone().spit(o)?;
+    fn spit_many<I>(x: I, mut o: Vec<u8>) -> Result<Vec<u8>, T>
+    where
+        I: IntoIterator<Item = Self>,
+    {
+        for item in x {
+            o = item.clone().spit(o).map_err(|_| item.clone())?;
         }
         Ok(o)
     }
