@@ -50,7 +50,7 @@ version = "0.1.0"
 [[package]]
 name = "eat"
 version = "0.1.0"
-source = "git+https://github.com/or-n/rust-minimalist-utils.git#f8fe155e3b2749731b21598429ca50a721755a1d"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#c0434e2e24d75a7903c21a26968c5e42fa455fdf"
 
 [[package]]
 name = "ecs"
@@ -124,7 +124,7 @@ version = "0.1.0"
 [[package]]
 name = "spit"
 version = "0.1.0"
-source = "git+https://github.com/or-n/rust-minimalist-utils.git#f8fe155e3b2749731b21598429ca50a721755a1d"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#c0434e2e24d75a7903c21a26968c5e42fa455fdf"
 
 [[package]]
 name = "syn"

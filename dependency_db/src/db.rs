@@ -1,4 +1,5 @@
 use super::DepValue;
+use spit::SpitMany;
 use spit::*;
 use std::collections::{HashMap, HashSet};
 use std::fmt::Debug;
@@ -48,7 +49,8 @@ where
             return Err(Push::DepNotFound(*dep));
         }
         {
-            let mut bytes = Vec::new();
+            let commands = value.deps.iter().map(|x| *x).map(TopCommand::Remove);
+            let bytes = spit_many(&commands, Vec::new()).map_err(|_| Push::Spit(id))?;
             for dep in value.deps.iter() {
                 let command = TopCommand::Remove(*dep);
                 bytes = command.spit(bytes).map_err(|_| Push::Spit(*dep))?;
