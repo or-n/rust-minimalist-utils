@@ -5,8 +5,14 @@ use std::collections::HashMap;
 
 pub const DEPENDENCIES: &str = "dependencies";
 
-pub struct Deps<Hash> {
-    pub table: HashMap<Hash, (Vec<u8>, Vec<Hash>)>,
+#[derive(Debug, PartialEq)]
+pub struct DepValue<Id> {
+    pub bytes: Vec<u8>,
+    pub deps: Vec<Id>,
+}
+
+pub struct Table<Id, Value> {
+    pub table: HashMap<Id, Value>,
 }
 
 #[cfg(test)]
@@ -18,10 +24,13 @@ mod tests {
     #[test]
     fn test_1_dep() {
         let bytes = fs::read(DEPENDENCIES).unwrap();
-        let (i, deps) = Deps::<u32>::eat(&bytes[..], ()).unwrap();
+        let (i, deps) = Table::<u32, DepValue<u32>>::eat(&bytes[..], ()).unwrap();
         assert!(i.is_empty());
         assert!(deps.table.len() == 1);
-        let value = (vec![], vec![]);
+        let value = DepValue {
+            bytes: vec![],
+            deps: vec![],
+        };
         assert_eq!(deps.table.get_key_value(&0), Some((&0, &value)));
     }
 }

@@ -29,6 +29,7 @@ name = "dependency_db"
 version = "0.1.0"
 dependencies = [
  "eat 0.1.0 (git+https://github.com/or-n/rust-minimalist-utils.git)",
+ "to_seq 0.1.0 (git+https://github.com/or-n/rust-minimalist-utils.git)",
 ]
 
 [[package]]
@@ -49,7 +50,7 @@ version = "0.1.0"
 [[package]]
 name = "eat"
 version = "0.1.0"
-source = "git+https://github.com/or-n/rust-minimalist-utils.git#f10d78131c55488022d62ad8588aae6657be568c"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#65b38f991bc54ef042cdccc87ad07facf74297e7"
 
 [[package]]
 name = "ecs"
@@ -60,9 +61,9 @@ dependencies = [
 
 [[package]]
 name = "either"
-version = "1.9.0"
+version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a26ae43d7bcc3b814de94796a5e736d4029efb0ee900c12e2d54c993ad1a1e07"
+checksum = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
 
 [[package]]
 name = "game"
@@ -96,18 +97,18 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.78"
+version = "1.0.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e2422ad645d89c99f8f3e6b88a9fdeca7fabeac836b1002371c4367c8f984aae"
+checksum = "37d3544b3f2748c54e147655edb5025752e2303145b5aefb3c3ea2c78b973bb0"
 dependencies = [
  "unicode-ident",
 ]
 
 [[package]]
 name = "quote"
-version = "1.0.35"
+version = "1.0.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
+checksum = "b5b9d34b8991d19d98081b46eacdd8eb58c6f2b201139f7c5f643cc155a633af"
 dependencies = [
  "proc-macro2",
 ]
@@ -118,9 +119,9 @@ version = "0.1.0"
 
 [[package]]
 name = "syn"
-version = "2.0.52"
+version = "2.0.89"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b699d15b36d1f02c3e7c69f8ffef53de37aefae075d8488d4ba1a7788d574a07"
+checksum = "44d46482f1c1c87acd84dea20c1bf5ebff4c757009ed6bf19cfd36fb10e92c4e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -132,14 +133,19 @@ name = "to_seq"
 version = "0.1.0"
 
 [[package]]
+name = "to_seq"
+version = "0.1.0"
+source = "git+https://github.com/or-n/rust-minimalist-utils.git#65b38f991bc54ef042cdccc87ad07facf74297e7"
+
+[[package]]
 name = "tree"
 version = "0.1.0"
 
 [[package]]
 name = "unicode-ident"
-version = "1.0.12"
+version = "1.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
+checksum = "adb9e6ca4f869e1180728b7950e35922a7fc6397f7b641499e8f3ef06e50dc83"
 
 [[package]]
 name = "wave"
