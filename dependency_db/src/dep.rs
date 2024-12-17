@@ -14,13 +14,11 @@ where
     Id: Eat<&'a [u8], (), ()>,
 {
     fn eat(i: &'a [u8], _data: ()) -> Result<(&[u8], Self), ()> {
-        let (i, bytes) = SeqN::<u8>::eat(i, ())?;
-        let (i, deps) = SeqN::<Id>::eat(i, ())?;
-        let r = DepValue {
-            bytes: bytes.0,
-            deps: deps.0,
-        };
-        Ok((i, r))
+        let (i, len_bytes) = u32::eat(i, ())?;
+        let (i, bytes) = u8::eat_len(i, (), len_bytes as usize)?;
+        let (i, len_deps) = u32::eat(i, ())?;
+        let (i, deps) = Id::eat_len(i, (), len_deps as usize)?;
+        Ok((i, DepValue { bytes, deps }))
     }
 }
 
