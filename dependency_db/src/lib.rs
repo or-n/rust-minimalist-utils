@@ -1,3 +1,5 @@
+pub mod db;
+
 use eat::*;
 use spit::*;
 
