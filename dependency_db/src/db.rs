@@ -1,5 +1,4 @@
 use super::DepValue;
-use spit::SpitMany;
 use spit::*;
 use std::collections::{HashMap, HashSet};
 use std::fmt::Debug;
@@ -22,6 +21,7 @@ pub enum Push<Id> {
     IO(std::io::Error),
 }
 
+#[derive(Clone)]
 pub enum TopCommand<Id> {
     Insert(Id),
     Remove(Id),
@@ -48,13 +48,17 @@ where
         if let Some(dep) = value.deps.iter().find(|dep| !self.db.contains_key(dep)) {
             return Err(Push::DepNotFound(*dep));
         }
+        let top_deps = value.deps.iter().filter(|dep| self.top.contains(dep));
+        let top_deps: Vec<Id> = top_deps.map(|x| *x).collect();
         {
-            let commands = value.deps.iter().map(|x| *x).map(TopCommand::Remove);
-            let bytes = spit_many(&commands, Vec::new()).map_err(|_| Push::Spit(id))?;
-            for dep in value.deps.iter() {
-                let command = TopCommand::Remove(*dep);
-                bytes = command.spit(bytes).map_err(|_| Push::Spit(*dep))?;
-            }
+            // let mut bytes = Vec::new();
+            // for &dep in top_deps.iter() {
+            //     bytes = TopCommand::Remove(*dep)
+            //         .spit(bytes)
+            //         .map_err(|_| Push::Spit(*dep))?;
+            // }
+            let commands = top_deps.iter().map(|x| *x).map(TopCommand::Remove);
+            let bytes = TopCommand::spit_many(commands, Vec::new()).map_err(|_| Push::Spit(id))?;
             let mut file = OpenOptions::new()
                 .create(true)
                 .append(true)
@@ -82,7 +86,7 @@ where
                 .map_err(Push::IO)?;
             file.write_all(&bytes).map_err(Push::IO)?;
         }
-        for dep in value.deps.iter() {
+        for dep in top_deps.iter() {
             self.top.remove(dep);
         }
         self.db.insert(id, value);

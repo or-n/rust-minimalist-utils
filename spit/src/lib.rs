@@ -10,7 +10,7 @@ where
 {
     fn spit_many<I>(x: I, o: Output) -> Result<Output, Error>
     where
-        I: IntoIterator<Item = Self>;
+        I: Iterator<Item = Self>;
 }
 
 impl<T> SpitMany<Vec<u8>, T> for T
@@ -19,7 +19,7 @@ where
 {
     fn spit_many<I>(x: I, mut o: Vec<u8>) -> Result<Vec<u8>, T>
     where
-        I: IntoIterator<Item = Self>,
+        I: Iterator<Item = Self>,
     {
         for item in x {
             o = item.clone().spit(o).map_err(|_| item.clone())?;
