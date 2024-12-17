@@ -72,6 +72,18 @@ impl Eat<&[u8], (), ()> for u32 {
     }
 }
 
+impl<'a, A, B> Eat<&'a [u8], (), ()> for (A, B)
+where
+    A: Eat<&'a [u8], (), ()>,
+    B: Eat<&'a [u8], (), ()>,
+{
+    fn eat(i: &'a [u8], _data: ()) -> Result<(&'a [u8], Self), ()> {
+        let (i, a) = A::eat(i, ())?;
+        let (i, b) = B::eat(i, ())?;
+        Ok((i, (a, b)))
+    }
+}
+
 pub struct SeqN<T>(pub Vec<T>);
 
 impl<'a, T> Eat<&'a [u8], (), ()> for SeqN<T>

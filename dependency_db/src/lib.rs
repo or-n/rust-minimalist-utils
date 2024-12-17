@@ -1,15 +1,8 @@
+pub mod dep;
 pub mod read;
 pub mod write;
 
 use std::collections::HashMap;
-
-pub const DEPENDENCIES: &str = "dependencies";
-
-#[derive(Debug, PartialEq)]
-pub struct DepValue<Id> {
-    pub bytes: Vec<u8>,
-    pub deps: Vec<Id>,
-}
 
 pub struct Table<Id, Value> {
     pub table: HashMap<Id, Value>,

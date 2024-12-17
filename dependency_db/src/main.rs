@@ -1,3 +1,4 @@
+use dependency_db::dep::{DepValue, DEPENDENCIES};
 use dependency_db::*;
 use std::collections::HashMap;
 use std::fs;
