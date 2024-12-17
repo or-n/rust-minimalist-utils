@@ -1,8 +1,7 @@
 use dependency_db::*;
 use std::collections::HashMap;
 use std::fs;
-// use to_seq::*;
-use dependency_db::write::ToSeq;
+use to_seq::*;
 
 fn main() {
     let mut table = HashMap::new();
