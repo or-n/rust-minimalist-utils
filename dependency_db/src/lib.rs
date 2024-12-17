@@ -1,7 +1,7 @@
 use eat::*;
 use spit::*;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct DepValue<Id> {
     pub bytes: Vec<u8>,
     pub deps: Vec<Id>,
@@ -42,24 +42,21 @@ mod tests {
 
     #[test]
     fn test_1_dep() {
-        let mut deps = HashMap::new();
+        const VALUE: u32 = 2137;
+        let mut old_deps = HashMap::new();
         let value = DepValue::<u32> {
             bytes: vec![],
             deps: vec![],
         };
-        deps.insert(2137, value);
-        let mut bytes = Vec::new();
-        bytes = deps.spit(bytes).unwrap();
-        let hex: String = bytes.iter().map(|byte| format!("{:02X} ", byte)).collect();
-        println!("{}", hex);
+        old_deps.insert(VALUE, value);
+        let bytes = old_deps.clone().spit(Vec::new()).unwrap();
         let (i, id_value) = <(u32, DepValue<u32>)>::eat_many(&bytes[..], ());
-        let deps: HashMap<_, _> = id_value.into_iter().collect();
+        let new_deps: HashMap<_, _> = id_value.into_iter().collect();
         assert!(i.is_empty());
-        assert!(deps.len() == 1);
-        let value = DepValue {
-            bytes: vec![],
-            deps: vec![],
-        };
-        assert_eq!(deps.get_key_value(&2137), Some((&2137, &value)));
+        assert!(new_deps.len() == old_deps.len());
+        assert_eq!(
+            new_deps.get_key_value(&VALUE),
+            old_deps.get_key_value(&VALUE)
+        );
     }
 }
