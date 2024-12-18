@@ -39,8 +39,10 @@ where
 
 #[cfg(test)]
 mod tests {
+    use super::db::*;
     use super::*;
     use std::collections::HashMap;
+    use std::hash::Hash;
 
     #[test]
     fn test_1_dep() {
@@ -60,5 +62,53 @@ mod tests {
             new_deps.get_key_value(&VALUE),
             old_deps.get_key_value(&VALUE)
         );
+    }
+
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    struct Id(u32);
+
+    impl From<DepValue<Id>> for Id {
+        fn from(value: DepValue<Id>) -> Self {
+            let mut id = value.bytes.len() as u32;
+            for dep in value.deps {
+                id += dep.0 + 1;
+            }
+            Id(id)
+        }
+    }
+
+    impl Eat<&[u8], (), ()> for Id {
+        fn eat(i: &[u8], _data: ()) -> Result<(&[u8], Self), ()> {
+            let (i, id) = u32::eat(i, ())?;
+            Ok((i, Id(id)))
+        }
+    }
+
+    impl Spit<Vec<u8>, ()> for Id {
+        fn spit(self, o: Vec<u8>) -> Result<Vec<u8>, ()> {
+            self.0.spit(o)
+        }
+    }
+
+    #[test]
+    fn test_db_load() {
+        if !std::path::Path::new("test").exists() {
+            std::fs::create_dir("test").unwrap();
+        }
+        std::fs::write("test/a_db", []).unwrap();
+        std::fs::write("test/a_top", []).unwrap();
+        let mut a: DB<Id> = DB::load("test/a_db", "test/a_top").unwrap();
+        let id = a
+            .push(DepValue {
+                bytes: vec![],
+                deps: vec![],
+            })
+            .unwrap();
+
+        std::fs::write("test/b_db", []).unwrap();
+        std::fs::write("test/b_top", []).unwrap();
+        let mut b: DB<Id> = DB::load("test/b_db", "test/b_top").unwrap();
+        b.migrate(&a, id).unwrap();
+        assert!(b.db.contains_key(&id));
     }
 }
