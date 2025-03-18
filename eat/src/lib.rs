@@ -19,12 +19,12 @@ where
 impl<Input, Error, Data, T> EatMany<Input, Error, Data> for T
 where
     T: Eat<Input, Error, Data>,
-    Data: Copy,
-    Input: Copy,
+    Data: Clone,
+    Input: Clone,
 {
     fn eat_many(mut i: Input, data: Data) -> (Input, Vec<T>) {
         let mut results = vec![];
-        while let Ok((new_i, item)) = T::eat(i, data) {
+        while let Ok((new_i, item)) = T::eat(i.clone(), data.clone()) {
             i = new_i;
             results.push(item)
         }
