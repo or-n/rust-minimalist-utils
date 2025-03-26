@@ -9,7 +9,7 @@ macro_rules! eat {
             return Ok(($i, $r));
         }
     };
-    ($i:ident, $text:expr) => {
+    ($i:ident, $last:expr) => {
         if let Ok($i) = $last.drop($i) {
             return Ok($i);
         }
