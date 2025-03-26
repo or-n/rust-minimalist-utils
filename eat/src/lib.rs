@@ -2,6 +2,20 @@ pub mod digit;
 pub mod text;
 pub mod token;
 
+#[macro_export]
+macro_rules! eat {
+    ($i:ident, $last:expr, $r:expr) => {
+        if let Ok($i) = $last.drop($i) {
+            return Ok(($i, $r));
+        }
+    };
+    ($i:ident, $text:expr) => {
+        if let Ok($i) = $last.drop($i) {
+            return Ok($i);
+        }
+    };
+}
+
 pub trait Eat<Input, Error, Data>
 where
     Self: Sized,
